@@ -15,9 +15,8 @@ public struct DataItem
     {
         return string.Format(format, X) + " " + string.Format(format, Y[0]) + " " + string.Format(format, Y[1]);
     }
-
     public override string ToString()
     {
-        return "DataItem";
+        return ToLongString("{0:F2}");
     }
 }

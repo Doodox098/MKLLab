@@ -43,8 +43,9 @@ public class V2MainCollection : System.Collections.ObjectModel.ObservableCollect
             if (Items.Count == 0) return null;
             return Items.SelectMany(data =>
                 data.Select(item => item.X)
-                    ).GroupBy(X => X)
+                .GroupBy(X => X)
                 .Where(group => group.Count() == 1)
+                    )
                 .SelectMany(group => group.AsEnumerable()).Distinct();
         }
     }
@@ -72,12 +73,12 @@ public class V2MainCollection : System.Collections.ObjectModel.ObservableCollect
     public V2MainCollection(int nV2DataArray, int nV2DataList)
     {
         int i = 1;
-        for (; i < nV2DataArray; ++i)
+        for (; i <= nV2DataArray; ++i)
         {
             double[] x = new[] { i * 1.25, i * 2.125, i * 3.0625 };
             this.Add(new V2DataArray(i.ToString(), DateTime.Now, x, Program.F));
         }
-        for (; i < nV2DataList + nV2DataArray; ++i)
+        for (; i <= nV2DataList + nV2DataArray; ++i)
         {
             double[] x = new[] { i * 1.0, i * 2.25, i * 3.5 };
             this.Add(new V2DataList(i.ToString(), DateTime.Now, x, Program.F));

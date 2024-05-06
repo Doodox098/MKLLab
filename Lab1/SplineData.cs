@@ -46,6 +46,7 @@ namespace Lab1
             SplineOptimization(Array.X, Array[0], M, Array.X.Length, Spline, MaxIterations, StopDiscrepancy,
                 NumUniformNodes, Values,
                 ref NumIterations, ref stop, ref MinDiscrepancy, SplineCoeff);
+            
 
             for (int i = 0; i < Array.X.Length; i++)
             {
@@ -84,7 +85,7 @@ namespace Lab1
             
             for (int i = 0; i < Array.Count(); ++i)
             {
-                res += ApproximationResults[i].ToString(format);
+                res += ApproximationResults[i].ToLongString(format) + '\n';
             }
 
             res += "Number of iterations: " + NumIterations + '\n';

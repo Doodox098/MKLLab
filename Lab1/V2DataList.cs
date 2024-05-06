@@ -63,13 +63,6 @@ public class V2DataList : V2Data
     {
         Data = new List<DataItem>();
     }
-    public V2DataList(string key, DateTime date, bool Random) : base(key, date)
-    {
-        Data = new List<DataItem>();
-        Data.Add(new DataItem(0, 1, 2));
-        Data.Add(new DataItem(1, 0, 3));
-        Data.Add(new DataItem(2, -1, 1));
-    }
     public V2DataList(string key, DateTime date, double[] x, FDI F) : base(key, date)
     {
         Data = new List<DataItem>();

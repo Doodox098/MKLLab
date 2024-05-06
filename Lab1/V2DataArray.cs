@@ -113,7 +113,7 @@ public class V2DataArray : V2Data
     {
         double dX = (xR - xL) / (nX - 1);
         X = new double[nX];
-        Y= new double[nX, nX];
+        Y = new double[2, nX];
         for (int i = 0; i < nX; ++i)
         {
             X[i] = xL + i * dX;

@@ -19,14 +19,14 @@ namespace Lab1
             YSpline = yspline;
         }
 
-        public string ToString(string format)
+        public string ToLongString(string format)
         {
-            return string.Format(format, X) + ' ' + string.Format(format, Y) + ' ' + string.Format(format, YSpline) + '\n';
+            return string.Format(format, X) + ' ' + string.Format(format, Y) + ' ' + string.Format(format, YSpline);
         }
 
         public override string ToString()
         {
-            return "SplineDataItem";
+            return ToLongString("{0:F2}");
         }
     }
  
