@@ -112,6 +112,7 @@ void MakeSpline(MKL_INT* m, MKL_INT* n, double* x, double* f, void* sd)
 			data->scoeff = scoeff;
 		}
 		ErrCode = ret;
+		return;
 	}
 
 	if (data->scoeff == nullptr)
@@ -136,6 +137,7 @@ void UniformGridValues(SplineData* data, double* x, double* values, int uniform_
 	MKL_INT bc_type = DF_BC_FREE_END;
 
 	double* scoeff = new double[nY * (nX - 1) * s_order];
+	ErrCode = 0;
 	try
 	{
 		DFTaskPtr task;
@@ -181,6 +183,7 @@ void UniformGridValues(SplineData* data, double* x, double* values, int uniform_
 	{
 		ErrCode = ret;
 	}
+	delete[] scoeff;
 }
 
 void SplineOptimization(
@@ -198,6 +201,7 @@ void SplineOptimization(
 	double& resFinal,
 	double* scoeff
 ) {
+	scoeff[0] = 1;
 	double* x = new double[M];
 
 	for (int i = 0; i < M; ++i) x[i] = 0;
@@ -241,6 +245,7 @@ void SplineOptimization(
 
 		while (true)
 		{
+			scoeff[0] += 1;
 			ret = dtrnlsp_solve(&handle, fvec, fjac, &RCI_Request);
 			if (ret != TR_SUCCESS) throw (ErrorEnum(ErrorEnum::SOLVE));
 			if (RCI_Request == 0) continue;
@@ -262,13 +267,17 @@ void SplineOptimization(
 		if (ret != TR_SUCCESS) throw (ErrorEnum(ErrorEnum::DEL));
 	}
 	catch (ErrorEnum _error) { error = _error; }
-
+	if (error != ErrorEnum::NO) {
+		return;
+	}
 	for (int i = 0; i < (M - 1) * DF_PP_CUBIC; ++i) {
 		scoeff[i] = sd.scoeff[i];
 	}
 
 	if (fvec != NULL) delete[] fvec;
 	if (fjac != NULL) delete[] fjac;
-	stop = stop_criteria;
+	stop = (int)error;
 	UniformGridValues(&sd, x, values, uniform_num_nodes);
+	delete[] x;
+	delete[] boundaries;
 }
